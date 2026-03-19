@@ -293,7 +293,7 @@ function DesktopIcon({
   return (
     <button
       type="button"
-      onDoubleClick={onOpen}
+      onClick={onOpen}
       className={cn(
         "group flex w-20 flex-col items-center gap-1.5 rounded-lg p-2 text-center transition-colors hover:bg-primary/10",
         status === "unavailable" && "opacity-40 pointer-events-none",
