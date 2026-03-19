@@ -162,9 +162,9 @@ function capabilityPills(capabilities: LinuxUiCapabilities | undefined) {
 }
 
 function statusClass(status: WorkspaceAppStatus) {
-  if (status === "live") return "border-emerald-500/20 bg-emerald-500/10 text-emerald-300";
-  if (status === "ready") return "border-primary/20 bg-primary/10 text-primary";
-  if (status === "next") return "border-amber-500/20 bg-amber-500/10 text-amber-300";
+  if (status === "live") return "border-emerald-500/30 bg-emerald-500/10 text-emerald-400";
+  if (status === "ready") return "border-primary/30 bg-primary/10 text-primary";
+  if (status === "next") return "border-amber-500/30 bg-amber-500/10 text-amber-400";
   return "border-border bg-muted text-muted-foreground";
 }
 
