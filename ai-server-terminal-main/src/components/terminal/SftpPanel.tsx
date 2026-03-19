@@ -34,6 +34,7 @@ import {
   createServerFolder,
   deleteServerFile,
   downloadServerFile,
+  executeServerCommand,
   listServerFiles,
   readServerTextFile,
   renameServerFile,
