@@ -196,6 +196,12 @@ function mobileWindowClass(appId: WorkspaceAppId) {
       return "h-[24rem] lg:h-auto";
     case "packages":
       return "h-[22rem] lg:h-auto";
+    case "text-editor":
+      return "h-[28rem] lg:h-auto";
+    case "quick-run":
+      return "h-[24rem] lg:h-auto";
+    case "settings":
+      return "h-[26rem] lg:h-auto";
     default:
       return "h-[22rem]";
   }
