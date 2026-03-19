@@ -16,8 +16,10 @@ const _demoModeFlag = String(import.meta.env.VITE_ENABLE_DEMO_MODE || "").toLowe
 const _isLocalHost =
   typeof window !== "undefined" &&
   ["localhost", "127.0.0.1", "::1"].includes(window.location.hostname.toLowerCase());
+const _isLovablePreview =
+  typeof window !== "undefined" && window.location.hostname.includes("lovable.app");
 const _demoModeAllowed =
-  _demoModeFlag === "true" || (_demoModeFlag !== "false" && (import.meta.env.DEV || _isLocalHost));
+  _demoModeFlag === "true" || (_demoModeFlag !== "false" && (import.meta.env.DEV || _isLocalHost || _isLovablePreview));
 
 export function isDemoMode(): boolean {
   return _demoMode;
