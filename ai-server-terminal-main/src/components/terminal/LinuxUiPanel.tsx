@@ -27,6 +27,9 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { SftpPanel } from "@/components/terminal/SftpPanel";
+import { TextEditorWindow } from "@/components/terminal/LinuxUiTextEditor";
+import { QuickRunWindow } from "@/components/terminal/LinuxUiQuickRun";
+import { SystemSettingsWindow } from "@/components/terminal/LinuxUiSystemSettings";
 import { ConfirmActionDialog } from "@/components/ui/confirm-action-dialog";
 import {
   ContextMenu,
