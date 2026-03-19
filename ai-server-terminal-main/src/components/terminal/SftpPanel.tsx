@@ -70,6 +70,7 @@ export interface SftpPanelHandle {
 interface SftpPanelProps {
   server: FrontendServer;
   active?: boolean;
+  onOpenInEditor?: (path: string) => void;
 }
 
 let transferSeq = 0;
