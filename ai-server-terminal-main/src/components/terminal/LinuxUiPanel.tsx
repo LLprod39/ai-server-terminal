@@ -3228,7 +3228,7 @@ export function LinuxUiPanel({ server, active = true, onClose }: LinuxUiPanelPro
                         onResizePointerDown={(event) => handleWindowResizePointerDown(appId, event)}
                       >
                         {appId === "files" ? (
-                          <SftpPanel server={server} active={active && activeApp === "files"} />
+                          <SftpPanel server={server} active={active && activeApp === "files"} onOpenInEditor={openFileInEditor} />
                         ) : null}
                         {appId === "overview" ? (
                           <OverviewWindow
