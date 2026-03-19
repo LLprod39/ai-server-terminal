@@ -2830,6 +2830,7 @@ export function LinuxUiPanel({ server, active = true, onClose }: LinuxUiPanelPro
       subtitle: "Edit config files directly",
       status: "live" as WorkspaceAppStatus,
       icon: <FileCode2 className="h-5 w-5" />,
+      hidden: true,
     },
     {
       id: "quick-run",
