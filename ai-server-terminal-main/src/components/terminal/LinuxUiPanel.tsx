@@ -4,7 +4,9 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   Activity,
   AlertTriangle,
+  Code2,
   Copy,
+  FileCode2,
   FileText,
   FolderOpen,
   HardDrive,
@@ -16,8 +18,10 @@ import {
   RefreshCw,
   RotateCcw,
   Server,
+  Settings,
   Settings2,
   Square,
+  Terminal,
   X,
 } from "lucide-react";
 
