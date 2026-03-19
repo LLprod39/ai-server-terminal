@@ -599,16 +599,16 @@ export default function SettingsPage() {
                       className={cn(
                         "rounded-xl border p-5 flex items-center gap-4 transition-all",
                         apiKeys[p.key]
-                          ? "border-green-500/20 bg-green-500/5"
+                          ? "border-primary/20 bg-primary/5"
                           : "border-border/60 bg-card/50"
                       )}
                     >
                       <div className={cn(
                         "h-10 w-10 rounded-lg flex items-center justify-center",
-                        apiKeys[p.key] ? "bg-green-500/10" : "bg-muted/50"
+                        apiKeys[p.key] ? "bg-primary/10" : "bg-muted/50"
                       )}>
                         {apiKeys[p.key]
-                          ? <CheckCircle2 className="h-5 w-5 text-green-500" />
+                          ? <CheckCircle2 className="h-5 w-5 text-primary" />
                           : <XCircle className="h-5 w-5 text-muted-foreground" />}
                       </div>
                       <div>
