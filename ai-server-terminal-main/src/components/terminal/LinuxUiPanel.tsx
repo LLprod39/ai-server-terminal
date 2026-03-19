@@ -2637,6 +2637,7 @@ export function LinuxUiPanel({ server, active = true, onClose }: LinuxUiPanelPro
   const [windowStates, setWindowStates] = useState<Record<WorkspaceAppId, WorkspaceWindowState>>(() => buildInitialWindowStates());
   const [dragState, setDragState] = useState<WorkspaceDragState | null>(null);
   const [resizeState, setResizeState] = useState<WorkspaceResizeState | null>(null);
+  const [pendingEditorPath, setPendingEditorPath] = useState<string | null>(null);
 
   const openAppsRef = useRef(openApps);
   const activeAppRef = useRef(activeApp);
