@@ -171,7 +171,7 @@ describe("Servers page rules and translations", () => {
     vi.mocked(api.getGlobalServerContext).mockResolvedValue(globalContext);
     vi.mocked(api.getGroupServerContext).mockResolvedValue(groupContext);
     vi.mocked(api.getMasterPasswordStatus).mockResolvedValue({ has_master_password: false });
-    vi.mocked(api.listServerKnowledge).mockResolvedValue({ items: [], categories: [] });
+    vi.mocked(api.listServerKnowledge).mockResolvedValue({ success: true, items: [], categories: [] });
     vi.mocked(api.listServerShares).mockResolvedValue({ success: true, shares: [] });
     vi.mocked(api.saveGlobalServerContext).mockResolvedValue({ success: true });
     vi.mocked(api.saveGroupServerContext).mockResolvedValue({ success: true });
@@ -187,7 +187,7 @@ describe("Servers page rules and translations", () => {
     vi.mocked(api.createServerGroup).mockResolvedValue({ success: true });
     vi.mocked(api.updateServerGroup).mockResolvedValue({ success: true });
     vi.mocked(api.deleteServerGroup).mockResolvedValue({ success: true });
-    vi.mocked(api.createServer).mockResolvedValue({ success: true });
+    vi.mocked(api.createServer).mockResolvedValue({ success: true, server_id: 99, message: "created" });
     vi.mocked(api.deleteServer).mockResolvedValue({ success: true });
     vi.mocked(api.createServerKnowledge).mockResolvedValue({ success: true });
     vi.mocked(api.updateServerKnowledge).mockResolvedValue({ success: true });
