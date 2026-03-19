@@ -923,32 +923,29 @@ export function AiPanel({
           <div ref={messagesEndRef} />
         </div>
 
-        <div className="shrink-0 border-t border-border p-2.5">
+        <div className="shrink-0 border-t border-border p-2">
           {messages.length > 0 ? (
-            <div className="mb-2 flex items-center justify-between gap-2 rounded-xl border border-border/70 bg-secondary/25 px-3 py-2">
-              <div>
-                <div className="text-xs font-medium text-foreground">Ручной отчёт</div>
-                <p className="mt-0.5 text-[11px] text-muted-foreground">Сформировать summary по завершённым командам текущего AI-диалога.</p>
-              </div>
-              <Button type="button" size="sm" variant="outline" onClick={() => onGenerateReport?.(false)} disabled={!canGenerateReport}>
-                <FileText className="h-3.5 w-3.5" />
-                Сформировать отчёт
+            <div className="mb-1.5 flex items-center justify-between gap-2 rounded-lg bg-secondary/30 px-2.5 py-1.5">
+              <span className="text-[11px] text-muted-foreground">Сформировать отчёт</span>
+              <Button type="button" size="sm" variant="ghost" onClick={() => onGenerateReport?.(false)} disabled={!canGenerateReport} className="h-6 gap-1 px-2 text-[11px]">
+                <FileText className="h-3 w-3" />
+                Отчёт
               </Button>
             </div>
           ) : null}
 
-          <div className="flex items-end gap-2">
+          <div className="flex items-end gap-1.5">
             <textarea
               ref={textareaRef}
               value={input}
               onChange={handleInput}
               onKeyDown={handleKeyDown}
-              placeholder="Сообщение... (Enter — отправить, /mode ask | /mode agent)"
+              placeholder="Сообщение... (Enter — отправить)"
               rows={1}
-              className="min-h-[36px] max-h-[120px] flex-1 resize-none rounded-xl border border-border bg-secondary px-3 py-2 text-sm text-foreground transition-colors placeholder:text-muted-foreground focus:border-primary focus:outline-none"
+              className="min-h-[34px] max-h-[120px] flex-1 resize-none rounded-lg border border-border bg-secondary/50 px-2.5 py-2 text-[13px] text-foreground transition-colors placeholder:text-muted-foreground/60 focus:border-primary focus:outline-none"
             />
-            <Button type="button" size="sm" onClick={() => handleSend()} disabled={!input.trim() || isGenerating} className="h-9 w-9 shrink-0 rounded-xl p-0" aria-label="Send">
-              <Send className="h-4 w-4" />
+            <Button type="button" size="sm" onClick={() => handleSend()} disabled={!input.trim() || isGenerating} className="h-[34px] w-[34px] shrink-0 rounded-lg p-0" aria-label="Send">
+              <Send className="h-3.5 w-3.5" />
             </Button>
           </div>
         </div>
