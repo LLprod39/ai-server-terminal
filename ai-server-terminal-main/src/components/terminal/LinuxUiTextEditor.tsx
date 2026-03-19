@@ -116,8 +116,11 @@ export function TextEditorWindow({
   );
 
   useEffect(() => {
-    if (initialPath && tabs.length === 0) {
+    if (initialPath) {
       void openFile(initialPath);
+      onPathConsumed?.();
+    } else if (tabs.length === 0) {
+      setShowOpenDialog(true);
     }
   }, [initialPath]);
 
