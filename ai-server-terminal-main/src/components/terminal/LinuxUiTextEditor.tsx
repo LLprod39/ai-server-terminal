@@ -43,10 +43,12 @@ export function TextEditorWindow({
   server,
   active,
   initialPath,
+  onPathConsumed,
 }: {
   server: FrontendServer;
   active: boolean;
   initialPath?: string;
+  onPathConsumed?: () => void;
 }) {
   const { toast } = useToast();
   const [tabs, setTabs] = useState<EditorTab[]>([]);
