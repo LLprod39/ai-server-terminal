@@ -1,9 +1,12 @@
 import { useCallback, useDeferredValue, useEffect, useMemo, useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent, type ReactNode } from "react";
+
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   Activity,
   AlertTriangle,
+  Code2,
   Copy,
+  FileCode2,
   FileText,
   FolderOpen,
   HardDrive,
@@ -15,13 +18,18 @@ import {
   RefreshCw,
   RotateCcw,
   Server,
+  Settings,
   Settings2,
   Square,
+  Terminal,
   X,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { SftpPanel } from "@/components/terminal/SftpPanel";
+import { TextEditorWindow } from "@/components/terminal/LinuxUiTextEditor";
+import { QuickRunWindow } from "@/components/terminal/LinuxUiQuickRun";
+import { SystemSettingsWindow } from "@/components/terminal/LinuxUiSystemSettings";
 import { ConfirmActionDialog } from "@/components/ui/confirm-action-dialog";
 import {
   ContextMenu,
@@ -71,7 +79,7 @@ import {
 } from "@/lib/api";
 import { cn } from "@/lib/utils";
 
-type WorkspaceAppId = "files" | "overview" | "services" | "processes" | "logs" | "disk" | "network" | "docker" | "packages";
+type WorkspaceAppId = "files" | "overview" | "services" | "processes" | "logs" | "disk" | "network" | "docker" | "packages" | "text-editor" | "quick-run" | "settings";
 type WorkspaceAppStatus = "live" | "ready" | "next" | "unavailable";
 
 interface LinuxUiPanelProps {
@@ -131,7 +139,7 @@ const WINDOW_MARGIN = 16;
 const MIN_WINDOW_WIDTH = 420;
 const MIN_WINDOW_HEIGHT = 280;
 const MAXIMIZED_WINDOW_MARGIN = 10;
-const APP_IDS: WorkspaceAppId[] = ["files", "overview", "services", "processes", "logs", "disk", "network", "docker", "packages"];
+const APP_IDS: WorkspaceAppId[] = ["files", "overview", "services", "processes", "logs", "disk", "network", "docker", "packages", "text-editor", "quick-run", "settings"];
 
 function formatUptime(seconds: number | null) {
   if (!seconds || seconds <= 0) return "Unknown";
@@ -188,6 +196,12 @@ function mobileWindowClass(appId: WorkspaceAppId) {
       return "h-[24rem] lg:h-auto";
     case "packages":
       return "h-[22rem] lg:h-auto";
+    case "text-editor":
+      return "h-[28rem] lg:h-auto";
+    case "quick-run":
+      return "h-[24rem] lg:h-auto";
+    case "settings":
+      return "h-[26rem] lg:h-auto";
     default:
       return "h-[22rem]";
   }
@@ -213,6 +227,12 @@ function getDefaultWindowGeometry(appId: WorkspaceAppId, zIndex: number): Worksp
       return { x: 74, y: 56, width: 1180, height: 708, minimized: false, maximized: false, zIndex };
     case "packages":
       return { x: 130, y: 108, width: 900, height: 600, minimized: false, maximized: false, zIndex };
+    case "text-editor":
+      return { x: 60, y: 50, width: 1100, height: 700, minimized: false, maximized: false, zIndex };
+    case "quick-run":
+      return { x: 100, y: 80, width: 900, height: 600, minimized: false, maximized: false, zIndex };
+    case "settings":
+      return { x: 80, y: 60, width: 1000, height: 680, minimized: false, maximized: false, zIndex };
     default:
       return { x: 88, y: 56, width: 980, height: 640, minimized: false, maximized: false, zIndex };
   }
@@ -2826,6 +2846,27 @@ export function LinuxUiPanel({ server, active = true, onClose }: LinuxUiPanelPro
       status: capabilities?.package_manager ? "live" : "unavailable",
       icon: <Package className="h-5 w-5" />,
     },
+    {
+      id: "text-editor",
+      title: "Text Editor",
+      subtitle: "Edit config files directly",
+      status: "live" as WorkspaceAppStatus,
+      icon: <FileCode2 className="h-5 w-5" />,
+    },
+    {
+      id: "quick-run",
+      title: "Quick Run",
+      subtitle: "Execute commands with output",
+      status: "live" as WorkspaceAppStatus,
+      icon: <Terminal className="h-5 w-5" />,
+    },
+    {
+      id: "settings",
+      title: "Settings",
+      subtitle: "System info, users, cron, security",
+      status: "live" as WorkspaceAppStatus,
+      icon: <Settings className="h-5 w-5" />,
+    },
   ], [availableApps?.disk, availableApps?.docker, availableApps?.logs, availableApps?.network, availableApps?.services, capabilities?.package_manager]);
 
   const appMap = useMemo(
@@ -3202,6 +3243,9 @@ export function LinuxUiPanel({ server, active = true, onClose }: LinuxUiPanelPro
                         {appId === "network" ? <NetworkWindow server={server} active={active} networkEnabled={Boolean(availableApps?.network)} /> : null}
                         {appId === "docker" ? <DockerWindow server={server} active={active} dockerEnabled={Boolean(availableApps?.docker)} /> : null}
                         {appId === "packages" ? <PackagesWindow server={server} active={active} packageManager={capabilities?.package_manager || ""} /> : null}
+                        {appId === "text-editor" ? <TextEditorWindow server={server} active={active && activeApp === "text-editor"} /> : null}
+                        {appId === "quick-run" ? <QuickRunWindow server={server} active={active && activeApp === "quick-run"} /> : null}
+                        {appId === "settings" ? <SystemSettingsWindow server={server} active={active && activeApp === "settings"} /> : null}
                       </WorkspaceWindow>
                     );
                   })}
