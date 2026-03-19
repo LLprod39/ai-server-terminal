@@ -3087,7 +3087,7 @@ export function LinuxUiPanel({ server, active = true, onClose }: LinuxUiPanelPro
     event.stopPropagation();
   }, [focusApp, isDesktopShell]);
 
-  const desktopApps = apps;
+  const desktopApps = apps.filter((app) => !app.hidden);
   const sortedWindowApps = [...openApps].sort(
     (left, right) => (windowStates[left]?.zIndex || 0) - (windowStates[right]?.zIndex || 0),
   );
