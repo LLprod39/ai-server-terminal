@@ -43,10 +43,12 @@ export function TextEditorWindow({
   server,
   active,
   initialPath,
+  onPathConsumed,
 }: {
   server: FrontendServer;
   active: boolean;
   initialPath?: string;
+  onPathConsumed?: () => void;
 }) {
   const { toast } = useToast();
   const [tabs, setTabs] = useState<EditorTab[]>([]);
@@ -114,8 +116,11 @@ export function TextEditorWindow({
   );
 
   useEffect(() => {
-    if (initialPath && tabs.length === 0) {
+    if (initialPath) {
       void openFile(initialPath);
+      onPathConsumed?.();
+    } else if (tabs.length === 0) {
+      setShowOpenDialog(true);
     }
   }, [initialPath]);
 
