@@ -23,6 +23,7 @@ import {
   Shield,
   Trash2,
   Upload,
+  User,
   X,
 } from "lucide-react";
 
