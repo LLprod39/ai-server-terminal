@@ -12,8 +12,12 @@ import type {
 } from "./api";
 
 let _demoMode = false;
+const _demoModeFlag = String(import.meta.env.VITE_ENABLE_DEMO_MODE || "").toLowerCase();
+const _isLocalHost =
+  typeof window !== "undefined" &&
+  ["localhost", "127.0.0.1", "::1"].includes(window.location.hostname.toLowerCase());
 const _demoModeAllowed =
-  import.meta.env.DEV || String(import.meta.env.VITE_ENABLE_DEMO_MODE || "").toLowerCase() === "true";
+  _demoModeFlag === "true" || (_demoModeFlag !== "false" && (import.meta.env.DEV || _isLocalHost));
 
 export function isDemoMode(): boolean {
   return _demoMode;
