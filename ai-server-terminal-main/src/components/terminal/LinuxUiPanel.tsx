@@ -281,49 +281,28 @@ function pickTopVisibleApp(
 
 function DesktopIcon({
   title,
-  subtitle,
   icon,
   onOpen,
   status,
-  active,
-  open,
 }: {
   title: string;
-  subtitle: string;
   icon: ReactNode;
   onOpen: () => void;
   status: WorkspaceAppStatus;
-  active?: boolean;
-  open?: boolean;
 }) {
-  const badgeLabel = active ? "active" : open ? "open" : status;
-  const badgeClass = active
-    ? "border-primary/30 bg-primary/15 text-primary"
-    : open
-      ? "border-sky-500/25 bg-sky-500/10 text-sky-300"
-      : statusClass(status);
-
   return (
     <button
       type="button"
-      onClick={onOpen}
+      onDoubleClick={onOpen}
       className={cn(
-        "group flex w-full items-center gap-3 rounded-2xl border px-3 py-3 text-left transition-all",
-        active
-          ? "border-primary/35 bg-primary/12 shadow-[0_18px_35px_-24px_rgba(0,0,0,0.85)]"
-          : "border-border/80 bg-card/96 hover:border-primary/25 hover:bg-card",
+        "group flex w-20 flex-col items-center gap-1.5 rounded-lg p-2 text-center transition-colors hover:bg-primary/10",
+        status === "unavailable" && "opacity-40 pointer-events-none",
       )}
     >
-      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-border/80 bg-background/95 text-foreground shadow-[0_12px_24px_-20px_rgba(0,0,0,0.9)] group-hover:border-primary/35 group-hover:bg-primary/10 group-hover:text-primary">
+      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-card/80 text-foreground shadow-sm border border-border/60 group-hover:bg-primary/15 group-hover:text-primary group-hover:border-primary/30 transition-colors">
         {icon}
       </div>
-      <div className="min-w-0 flex-1">
-        <div className="truncate text-sm font-medium text-foreground">{title}</div>
-        <div className="mt-1 line-clamp-2 text-[11px] leading-4 text-muted-foreground">{subtitle}</div>
-      </div>
-      <span className={cn("shrink-0 rounded-full border px-2 py-0.5 text-[10px] uppercase tracking-wide", badgeClass)}>
-        {badgeLabel}
-      </span>
+      <span className="text-[11px] leading-tight text-foreground/80 group-hover:text-foreground line-clamp-2">{title}</span>
     </button>
   );
 }
@@ -346,65 +325,17 @@ function TaskbarButton({
       type="button"
       onClick={onClick}
       className={cn(
-        "flex min-w-36 items-center gap-2 rounded-xl border px-3 py-2 text-left text-xs transition-colors",
+        "flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-xs transition-colors",
         active
-          ? "border-primary/35 bg-primary/15 text-foreground shadow-[0_14px_25px_-18px_rgba(0,0,0,0.9)]"
+          ? "bg-primary/20 text-foreground"
           : minimized
-            ? "border-border/80 bg-background/90 text-muted-foreground hover:bg-secondary/90 hover:text-foreground"
-            : "border-border/80 bg-card/95 text-muted-foreground hover:bg-secondary/90 hover:text-foreground",
+            ? "bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground"
+            : "bg-card/60 text-muted-foreground hover:bg-card hover:text-foreground",
       )}
     >
-      <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-border/70 bg-background">{icon}</span>
-      <span className="truncate">{title}</span>
-    </button>
-  );
-}
-
-function WorkspaceDockAppButton({
-  title,
-  subtitle,
-  icon,
-  status,
-  active,
-  open,
-  onOpen,
-}: {
-  title: string;
-  subtitle: string;
-  icon: ReactNode;
-  status: WorkspaceAppStatus;
-  active?: boolean;
-  open?: boolean;
-  onOpen: () => void;
-}) {
-  const badgeLabel = active ? "active" : open ? "open" : status;
-  const badgeClass = active
-    ? "border-primary/35 bg-primary/15 text-primary"
-    : open
-      ? "border-sky-500/30 bg-sky-500/12 text-sky-300"
-      : statusClass(status);
-
-  return (
-    <button
-      type="button"
-      onClick={onOpen}
-      className={cn(
-        "group flex min-w-[15rem] max-w-[16.5rem] items-center gap-3 rounded-[1.15rem] border px-3 py-3 text-left transition-all",
-        active
-          ? "border-primary/35 bg-primary/12 shadow-[0_18px_42px_-28px_rgba(0,0,0,0.95)]"
-          : "border-border/80 bg-slate-950/92 hover:border-primary/25 hover:bg-slate-900/96",
-      )}
-    >
-      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-border/80 bg-background/95 text-foreground shadow-[0_12px_24px_-20px_rgba(0,0,0,0.95)] group-hover:border-primary/35 group-hover:bg-primary/10 group-hover:text-primary">
-        {icon}
-      </div>
-      <div className="min-w-0 flex-1">
-        <div className="truncate text-sm font-medium text-foreground">{title}</div>
-        <div className="mt-1 line-clamp-2 text-[11px] leading-4 text-muted-foreground">{subtitle}</div>
-      </div>
-      <span className={cn("shrink-0 rounded-full border px-2 py-0.5 text-[10px] uppercase tracking-wide", badgeClass)}>
-        {badgeLabel}
-      </span>
+      <span className="flex h-5 w-5 items-center justify-center [&>svg]:h-3.5 [&>svg]:w-3.5">{icon}</span>
+      <span className="max-w-24 truncate">{title}</span>
+      {active && <span className="ml-auto h-1 w-1 rounded-full bg-primary" />}
     </button>
   );
 }
