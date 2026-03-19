@@ -814,72 +814,60 @@ export function AiPanel({
       </Dialog>
 
       <div className="flex h-full flex-col bg-card">
+        {/* Header */}
         <div className="shrink-0 border-b border-border px-3 py-2">
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2">
-              <div className={`flex h-7 w-7 items-center justify-center rounded-lg transition-all ${
-                isGenerating ? "bg-primary/25 shadow-md shadow-primary/20" : "bg-primary/10"
+              <div className={`flex h-6 w-6 items-center justify-center rounded-md transition-all ${
+                isGenerating ? "bg-primary/20 shadow-sm shadow-primary/20" : "bg-primary/10"
               }`}>
-                <Bot className="h-4 w-4 text-primary" />
+                <Bot className="h-3.5 w-3.5 text-primary" />
               </div>
-              <div>
-                <h3 className="text-sm font-medium leading-none text-foreground">AI Assistant</h3>
-                <p className="mt-0.5 text-[10px]">
-                  {isGenerating ? <span className="animate-pulse text-warning">обрабатывает...</span> : <span className="text-success">готов</span>}
-                </p>
+              <div className="flex items-center gap-1.5">
+                <span className="text-[13px] font-medium text-foreground">AI</span>
+                <span className={`inline-flex items-center rounded px-1.5 py-0.5 text-[10px] font-medium ${
+                  isGenerating ? "bg-warning/15 text-warning animate-pulse" : "bg-success/15 text-success"
+                }`}>
+                  {isGenerating ? "думает..." : "готов"}
+                </span>
               </div>
             </div>
 
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-0.5">
               <Button
                 type="button"
                 size="sm"
                 variant="ghost"
-                className="h-7 w-7 p-0 text-muted-foreground hover:text-foreground"
+                className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground"
                 onClick={() => setSettingsOpen(true)}
-                title="Настройки ассистента"
+                title="Настройки"
                 aria-label="AI settings"
               >
                 <Settings2 className="h-3.5 w-3.5" />
               </Button>
 
               {isGenerating ? (
-                <Button type="button" size="sm" variant="ghost" className="h-7 w-7 p-0 text-warning hover:bg-warning/10" onClick={onStop} title="Остановить" aria-label="Stop">
+                <Button type="button" size="sm" variant="ghost" className="h-6 w-6 p-0 text-warning hover:bg-warning/10" onClick={onStop} title="Стоп" aria-label="Stop">
                   <Square className="h-3.5 w-3.5" />
                 </Button>
               ) : null}
 
               {messages.length > 0 ? (
-                <Button type="button" size="sm" variant="ghost" className="h-7 w-7 p-0 text-muted-foreground hover:text-destructive" onClick={onClearChat} title="Очистить чат" aria-label="Clear chat">
-                  <Trash2 className="h-3.5 w-3.5" />
+                <Button type="button" size="sm" variant="ghost" className="h-6 w-6 p-0 text-muted-foreground hover:text-destructive" onClick={onClearChat} title="Очистить" aria-label="Clear">
+                  <Trash2 className="h-3 w-3" />
                 </Button>
               ) : null}
 
-              <Button type="button" size="sm" variant="ghost" className="h-7 w-7 p-0 text-muted-foreground hover:text-foreground" onClick={onClose} aria-label="Close">
-                <X className="h-4 w-4" />
+              <Button type="button" size="sm" variant="ghost" className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground" onClick={onClose} aria-label="Close">
+                <X className="h-3.5 w-3.5" />
               </Button>
             </div>
           </div>
         </div>
 
-        <div className="space-y-2 border-b border-border/60 px-3 py-2">
-          <div className="flex items-center justify-between gap-2">
-            <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Режим чата</span>
-            <ChatModeSelector mode={chatMode} onChange={onChatModeChange} />
-          </div>
-          <div className={`rounded-xl border px-3 py-2 ${currentChatMode.badge}`}>
-            <div className="flex items-center justify-between gap-3">
-              <div>
-                <div className="text-xs font-semibold">{currentChatMode.label}</div>
-                <p className="mt-0.5 text-[11px] opacity-90">{currentChatMode.desc}</p>
-              </div>
-              <code className="rounded bg-background/60 px-2 py-1 text-[10px] font-mono text-foreground/80">/mode {chatMode}</code>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex shrink-0 items-center justify-between border-b border-border/60 px-3 py-1.5">
-          <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Стиль</span>
+        {/* Compact mode bar */}
+        <div className="flex shrink-0 items-center justify-between gap-2 border-b border-border/50 px-3 py-1.5">
+          <ChatModeSelector mode={chatMode} onChange={onChatModeChange} />
           <ModeSelector mode={executionMode} onChange={onModeChange} />
         </div>
 
