@@ -664,49 +664,37 @@ export function AiPanel({
   return (
     <>
       <Dialog open={settingsOpen} onOpenChange={setSettingsOpen}>
-        <DialogContent className="max-h-[90vh] max-w-3xl overflow-hidden">
-          <DialogHeader>
-            <DialogTitle>Настройки AI Assistant</DialogTitle>
-            <DialogDescription>
-              Параметры применяются к текущему чату сразу. При необходимости сохраните их как глобальные значения по умолчанию.
+        <DialogContent className="max-h-[85vh] max-w-2xl overflow-hidden rounded-xl border-border/60">
+          <DialogHeader className="pb-0">
+            <DialogTitle className="flex items-center gap-2 text-base">
+              <Settings2 className="h-4 w-4 text-primary" />
+              Настройки AI
+            </DialogTitle>
+            <DialogDescription className="text-[11px]">
+              Параметры применяются сразу к текущему чату.
             </DialogDescription>
           </DialogHeader>
 
-          <DialogBody className="max-h-[calc(90vh-9.5rem)] space-y-4 overflow-y-auto">
+          <DialogBody className="max-h-[calc(85vh-8rem)] space-y-5 overflow-y-auto py-2">
             <SettingsSection
-              title="Режим ответа"
-              description="Fast подходит для коротких ответов и быстрых действий. Step оставляет больше пояснений и чаще просит подтверждение."
+              title="Режим"
+              description="Выберите как AI будет отвечать и выполнять команды."
             >
-              <div className="space-y-3 rounded-lg border border-border/60 bg-background/80 px-3 py-3">
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                  <div>
-                    <div className="text-sm font-medium text-foreground">Режим чата</div>
-                    <p className="mt-0.5 text-xs text-muted-foreground">
-                      `Ask` предлагает команды без автозапуска. `Agent` выполняет их сразу. Быстрый переключатель: `/mode ask` и `/mode agent`.
-                    </p>
-                  </div>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between gap-3">
+                  <span className="text-[13px] text-foreground">Чат</span>
                   <ChatModeSelector mode={chatMode} onChange={onChatModeChange} />
                 </div>
-
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                  <div>
-                    <div className="text-sm font-medium text-foreground">Стиль выполнения</div>
-                    <p className="mt-0.5 text-xs text-muted-foreground">Можно переключать прямо в чате или здесь.</p>
-                  </div>
+                <div className="flex items-center justify-between gap-3">
+                  <span className="text-[13px] text-foreground">Стиль</span>
                   <ModeSelector mode={executionMode} onChange={onModeChange} />
                 </div>
-
-                <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_140px]">
-                  <div>
-                    <InputLabel>Авто-отчёт</InputLabel>
-                    <p className="mb-2 text-xs text-muted-foreground">
-                      `Auto` включает summary в `Step` и отключает в `Fast`. `On` и `Off` принудительно переопределяют это поведение.
-                    </p>
-                  </div>
+                <div className="flex items-center justify-between gap-3">
+                  <span className="text-[13px] text-foreground">Авто-отчёт</span>
                   <select
                     value={settings.autoReport}
                     onChange={(event) => updateSettings({ autoReport: event.target.value === "on" || event.target.value === "off" ? event.target.value : "auto" })}
-                    className="h-10 rounded-lg border border-border bg-background px-3 text-sm text-foreground focus:border-primary focus:outline-none"
+                    className="h-8 rounded-md border border-border bg-background px-2.5 text-xs text-foreground focus:border-primary focus:outline-none"
                   >
                     <option value="auto">Auto</option>
                     <option value="on">Всегда On</option>
@@ -717,21 +705,21 @@ export function AiPanel({
             </SettingsSection>
 
             <SettingsSection
-              title="Память и отчёты"
-              description="Контекст можно хранить между запросами, ограничивать по TTL и очищать отдельно от видимого чата."
+              title="Память"
+              description="Контекст между запросами и управление историей."
             >
-              <div className="space-y-3">
+              <div className="space-y-2">
                 <ToggleRow
                   title="Сохранять контекст"
-                  description="Если выключить, каждый новый запрос пойдёт без накопленной памяти и без записи summary в backend-память."
+                  description="AI помнит предыдущие запросы в рамках сессии."
                   checked={settings.memoryEnabled}
                   onCheckedChange={(checked) => updateSettings({ memoryEnabled: checked })}
                 />
 
-                <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_120px]">
-                  <div className="rounded-lg border border-border/60 bg-background/80 px-3 py-2.5">
-                    <InputLabel>TTL памяти</InputLabel>
-                    <p className="text-xs text-muted-foreground">Сколько последних пользовательских запросов учитывать в памяти чата. Диапазон: 1-20.</p>
+                <div className="flex items-center justify-between gap-3 py-1.5">
+                  <div>
+                    <div className="text-[13px] font-medium text-foreground">TTL памяти</div>
+                    <p className="mt-0.5 text-[11px] text-muted-foreground">Количество запросов (1–20)</p>
                   </div>
                   <input
                     type="number"
@@ -740,18 +728,15 @@ export function AiPanel({
                     value={settings.memoryTtlRequests}
                     disabled={!settings.memoryEnabled}
                     onChange={(event) => updateSettings({ memoryTtlRequests: Math.max(1, Math.min(20, Number(event.target.value || 1))) })}
-                    className="h-10 rounded-lg border border-border bg-background px-3 text-sm text-foreground focus:border-primary focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+                    className="h-8 w-16 rounded-md border border-border bg-background px-2.5 text-center text-xs text-foreground focus:border-primary focus:outline-none disabled:opacity-40"
                   />
                 </div>
 
-                <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-border/60 bg-background/80 px-3 py-3">
-                  <div>
-                    <div className="text-sm font-medium text-foreground">Ручное управление памятью</div>
-                    <p className="mt-0.5 text-xs text-muted-foreground">Очищает server-side memory текущего AI-чата, но не удаляет сообщения из панели.</p>
-                  </div>
-                  <Button type="button" variant="outline" onClick={onClearMemory} className="gap-2">
-                    <Trash2 className="h-4 w-4" />
-                    Очистить память
+                <div className="flex items-center justify-between gap-3 pt-1">
+                  <span className="text-[13px] text-foreground">Очистить память</span>
+                  <Button type="button" variant="outline" size="sm" onClick={onClearMemory} className="h-7 gap-1.5 text-xs">
+                    <Trash2 className="h-3 w-3" />
+                    Очистить
                   </Button>
                 </div>
               </div>
@@ -759,42 +744,35 @@ export function AiPanel({
 
             <SettingsSection
               title="Безопасность"
-              description="Опасные команды можно отправлять только с подтверждением, а allowlist/blocklist ограничивает набор допустимых команд."
+              description="Контроль опасных команд и ограничение допустимых операций."
             >
-              <div className="space-y-3">
+              <div className="space-y-2">
                 <ToggleRow
-                  title="Подтверждать опасные команды"
-                  description="Опасные операции останутся в плане, но потребуют явного подтверждения пользователя."
+                  title="Подтверждать опасные"
+                  description="Требовать ручное подтверждение для опасных операций."
                   checked={settings.confirmDangerousCommands}
                   onCheckedChange={(checked) => updateSettings({ confirmDangerousCommands: checked })}
                 />
 
-                <div className="grid gap-3 md:grid-cols-2">
-                  <div className="rounded-lg border border-border/60 bg-background/80 p-3">
-                    <InputLabel>Whitelist команд</InputLabel>
-                    <p className="mb-2 text-xs text-muted-foreground">
-                      Одна маска на строку. Если список не пустой, AI сможет запускать только совпадающие команды. Поддерживается `re:`.
-                    </p>
+                <div className="grid gap-2.5 pt-1 md:grid-cols-2">
+                  <div>
+                    <InputLabel>Whitelist</InputLabel>
                     <textarea
                       value={whitelistText}
                       onChange={(event) => updateSettings({ whitelistPatterns: normalizePatternList(event.target.value) })}
-                      rows={6}
-                      placeholder={"sudo systemctl\njournalctl -u nginx\nre:^docker\\s+ps"}
-                      className="w-full rounded-lg border border-border bg-background px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none"
+                      rows={4}
+                      placeholder={"sudo systemctl\nre:^docker\\s+ps"}
+                      className="w-full rounded-md border border-border bg-background px-2.5 py-2 font-mono text-[11px] text-foreground placeholder:text-muted-foreground/50 focus:border-primary focus:outline-none"
                     />
                   </div>
-
-                  <div className="rounded-lg border border-border/60 bg-background/80 p-3">
-                    <InputLabel>Blocklist команд</InputLabel>
-                    <p className="mb-2 text-xs text-muted-foreground">
-                      Всё, что совпадёт с этими паттернами, backend сразу заблокирует. Поддерживается `re:`.
-                    </p>
+                  <div>
+                    <InputLabel>Blocklist</InputLabel>
                     <textarea
                       value={blacklistText}
                       onChange={(event) => updateSettings({ blacklistPatterns: normalizePatternList(event.target.value) })}
-                      rows={6}
+                      rows={4}
                       placeholder={"rm -rf /\nshutdown\nre:^mkfs"}
-                      className="w-full rounded-lg border border-border bg-background px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none"
+                      className="w-full rounded-md border border-border bg-background px-2.5 py-2 font-mono text-[11px] text-foreground placeholder:text-muted-foreground/50 focus:border-primary focus:outline-none"
                     />
                   </div>
                 </div>
@@ -802,19 +780,19 @@ export function AiPanel({
             </SettingsSection>
 
             <SettingsSection
-              title="Видимость в чате"
-              description="Можно отдельно показывать предлагаемые команды и уже выполненные действия, не меняя поведение backend."
+              title="Отображение"
+              description="Какие элементы показывать в чате."
             >
-              <div className="space-y-3">
+              <div className="space-y-1">
                 <ToggleRow
-                  title="Показывать предлагаемые команды"
-                  description="Команды в статусе `pending` и ожидающие подтверждения будут видны в AI-чате."
+                  title="Предлагаемые команды"
+                  description="Показывать команды в статусе pending."
                   checked={settings.showSuggestedCommands}
                   onCheckedChange={(checked) => updateSettings({ showSuggestedCommands: checked })}
                 />
                 <ToggleRow
-                  title="Показывать выполненные команды"
-                  description="Команды со статусами `running`, `done`, `skipped` и `cancelled` будут оставаться в ленте чата."
+                  title="Выполненные команды"
+                  description="Показывать done/skipped/cancelled команды."
                   checked={settings.showExecutedCommands}
                   onCheckedChange={(checked) => updateSettings({ showExecutedCommands: checked })}
                 />
@@ -822,14 +800,14 @@ export function AiPanel({
             </SettingsSection>
           </DialogBody>
 
-          <DialogFooter>
-            <Button type="button" variant="outline" onClick={onResetToDefaults} className="gap-2">
-              <RotateCcw className="h-4 w-4" />
-              Сбросить чат к глобальным
+          <DialogFooter className="gap-2 pt-0">
+            <Button type="button" variant="ghost" size="sm" onClick={onResetToDefaults} className="gap-1.5 text-xs text-muted-foreground">
+              <RotateCcw className="h-3 w-3" />
+              Сбросить
             </Button>
-            <Button type="button" onClick={onSaveDefaults} className="gap-2">
-              <Check className="h-4 w-4" />
-              Сохранить как глобальные
+            <Button type="button" size="sm" onClick={onSaveDefaults} className="gap-1.5 text-xs">
+              <Check className="h-3 w-3" />
+              Сохранить глобально
             </Button>
           </DialogFooter>
         </DialogContent>
